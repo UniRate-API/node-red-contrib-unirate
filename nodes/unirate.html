@@ -1,0 +1,89 @@
+<script type="text/javascript">
+  RED.nodes.registerType("unirate", {
+    category: "function",
+    color: "#4C9AFF",
+    defaults: {
+      name: { value: "" },
+      config: { value: "", type: "unirate-config", required: true },
+      operation: { value: "rate" },
+      from: { value: "USD" },
+      to: { value: "" },
+      amount: { value: "" },
+      country: { value: "" },
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "font-awesome/fa-money",
+    label: function () {
+      return this.name || "unirate " + (this.operation || "rate");
+    },
+    oneditprepare: function () {
+      const toggle = function () {
+        const op = $("#node-input-operation").val();
+        $(".unirate-field").hide();
+        if (op === "rate") { $(".unirate-from, .unirate-to").show(); }
+        else if (op === "convert") { $(".unirate-from, .unirate-to, .unirate-amount").show(); }
+        else if (op === "vat") { $(".unirate-country").show(); }
+        // "currencies" needs no fields
+      };
+      $("#node-input-operation").on("change", toggle);
+      toggle();
+    },
+  });
+</script>
+
+<script type="text/html" data-template-name="unirate">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="Name" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-config"><i class="fa fa-cog"></i> API</label>
+    <input type="text" id="node-input-config" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-operation"><i class="fa fa-wrench"></i> Operation</label>
+    <select id="node-input-operation">
+      <option value="rate">Get rate</option>
+      <option value="convert">Convert amount</option>
+      <option value="currencies">List currencies</option>
+      <option value="vat">VAT rates</option>
+    </select>
+  </div>
+  <div class="form-row unirate-field unirate-from">
+    <label for="node-input-from"><i class="fa fa-arrow-right"></i> From</label>
+    <input type="text" id="node-input-from" placeholder="USD" />
+  </div>
+  <div class="form-row unirate-field unirate-to">
+    <label for="node-input-to"><i class="fa fa-arrow-left"></i> To</label>
+    <input type="text" id="node-input-to" placeholder="EUR (blank = all rates)" />
+  </div>
+  <div class="form-row unirate-field unirate-amount">
+    <label for="node-input-amount"><i class="fa fa-hashtag"></i> Amount</label>
+    <input type="text" id="node-input-amount" placeholder="1" />
+  </div>
+  <div class="form-row unirate-field unirate-country">
+    <label for="node-input-country"><i class="fa fa-flag"></i> Country</label>
+    <input type="text" id="node-input-country" placeholder="DE (blank = all countries)" />
+  </div>
+  <div class="form-tips">
+    Any field can be overridden per message via <code>msg.operation</code>,
+    <code>msg.from</code>, <code>msg.to</code>, <code>msg.amount</code>,
+    <code>msg.country</code>. The result is placed on <code>msg.payload</code>.
+  </div>
+</script>
+
+<script type="text/html" data-help-name="unirate">
+  <p>Query the <a href="https://unirateapi.com" target="_blank">UniRate API</a> for
+  currency exchange rates, conversions, the supported-currency list, and VAT rates.</p>
+  <h3>Operations</h3>
+  <dl class="message-properties">
+    <dt>Get rate</dt><dd>Rate for <code>from</code>→<code>to</code>, or all rates for <code>from</code> when <code>to</code> is blank.</dd>
+    <dt>Convert amount</dt><dd>Convert <code>amount</code> of <code>from</code> into <code>to</code>.</dd>
+    <dt>List currencies</dt><dd>Array of supported currency codes.</dd>
+    <dt>VAT rates</dt><dd>VAT rates for a <code>country</code>, or all countries when blank.</dd>
+  </dl>
+  <h3>Outputs</h3>
+  <p>The result is placed on <code>msg.payload</code>. Errors are reported via the node's
+  error output (catchable with a <b>catch</b> node).</p>
+</script>

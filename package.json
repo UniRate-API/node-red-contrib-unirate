@@ -1,0 +1,47 @@
+{
+  "name": "node-red-contrib-unirate",
+  "version": "0.1.0",
+  "description": "Node-RED nodes for the UniRate API: currency exchange rates, conversion, supported currencies, and VAT rates. Zero runtime dependencies.",
+  "keywords": [
+    "node-red",
+    "unirate",
+    "currency",
+    "exchange-rate",
+    "exchange-rates",
+    "forex",
+    "fx",
+    "conversion",
+    "vat"
+  ],
+  "license": "MIT",
+  "author": "UniRate-API",
+  "homepage": "https://github.com/UniRate-API/node-red-contrib-unirate#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UniRate-API/node-red-contrib-unirate.git"
+  },
+  "bugs": {
+    "url": "https://github.com/UniRate-API/node-red-contrib-unirate/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "node-red": {
+    "version": ">=3.0.0",
+    "nodes": {
+      "unirate-config": "nodes/unirate-config.js",
+      "unirate": "nodes/unirate.js"
+    }
+  },
+  "files": [
+    "lib/",
+    "nodes/",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

@@ -1,0 +1,34 @@
+<script type="text/javascript">
+  RED.nodes.registerType("unirate-config", {
+    category: "config",
+    defaults: {
+      name: { value: "" },
+      baseUrl: { value: "" },
+    },
+    credentials: {
+      apiKey: { type: "password" },
+    },
+    label: function () {
+      return this.name || "UniRate API";
+    },
+  });
+</script>
+
+<script type="text/html" data-template-name="unirate-config">
+  <div class="form-row">
+    <label for="node-config-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-config-input-name" placeholder="UniRate API" />
+  </div>
+  <div class="form-row">
+    <label for="node-config-input-apiKey"><i class="fa fa-key"></i> API Key</label>
+    <input type="password" id="node-config-input-apiKey" placeholder="Your UniRate API key" />
+  </div>
+  <div class="form-row">
+    <label for="node-config-input-baseUrl"><i class="fa fa-globe"></i> Base URL</label>
+    <input type="text" id="node-config-input-baseUrl" placeholder="https://api.unirateapi.com (optional)" />
+  </div>
+  <div class="form-tips">
+    Get a free API key at <a href="https://unirateapi.com" target="_blank">unirateapi.com</a>.
+    Leave <b>Base URL</b> blank to use the public API.
+  </div>
+</script>
